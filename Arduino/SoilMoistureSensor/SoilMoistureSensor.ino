@@ -1,8 +1,8 @@
 const int AirValue = 520;
-const int WaterValue = 238;
+const int WaterValue = 240;
 int soilMoistureValue = 0;
 int soilMoisturePct = 0;
-bool debug = false;
+bool debug = true;
 
 void setup() {
   Serial.begin(9600); // open the serial port and set the baud rate to 9600bps
@@ -19,7 +19,7 @@ void loop() {
     soilMoisturePct = 0;
   }
 
-  if(debug){ // Print statements viewable on the Serial Monitor, to toggle, change `debug` to `true`
+  if(debug){ // Print statements viewable on the Serial Monitor, to toggle, change `debug` to `true` or `false`
     Serial.println("----");
     Serial.print(String(soilMoistureValue) + " --- ");
     Serial.println(String(soilMoisturePct) + "%");
