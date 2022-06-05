@@ -4,13 +4,10 @@
 import argparse
 import serial
 import time
-# import pandas as pd
+import pandas as pd
 
-# TODO
-# install conda on pi
-# create Environment with requirement.txt
-# install pandas to it
-
+# TODO:
+# import yaml and put the port and command map in a config.yaml file
 COMMAND_MAP = {
     1: "Collect all data [Soil moisture %]",
     2: "Collect Soil Moisture Percent"
@@ -19,6 +16,9 @@ COMMAND_MAP = {
 def main(commands):
     
     for command in commands:
+        if command not in COMMAND_MAP.keys():
+            print(f"Unrecognized command: {command}")
+            continue
         have_info=False
         print(f"Waiting for data from command: {COMMAND_MAP[command]}...")
         while not have_info:
