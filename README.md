@@ -8,6 +8,7 @@ project descibed in [my blog](https://ericwybenga.com/home/blog/).
 ## File Structure
 ```
 GAIA
+|   .gitignore
 |   config.yaml
 │   README.md
 |   requirements.txt
@@ -26,7 +27,6 @@ GAIA
 >#### `config.yaml`
 >>Replace the value for `"port":` with whatever port your raspberry pi and
 >>arduino are communicating on.
->#### `README.md` (this file)
 >#### `requirements.txt`
 >>Contains the python dependencies. Install using `pip install -r
 >>requirements.txt`
