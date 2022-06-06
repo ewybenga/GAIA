@@ -1,0 +1,4 @@
+"command_map":
+  1: "Collect all data [Soil moisture %]"
+  2: "Collect Soil Moisture Percent"
+"port": '/dev/ttyACM0'
