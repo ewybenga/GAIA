@@ -2,11 +2,10 @@ import argparse
 import serial
 import time
 import pandas as pd
-import yaml
 
-# TODO: Set up sqlite database and write our data to a table
+def send_cmd(args, config):
+    arduino = serial.Serial(config['port'], 9600, timeout=1)
 
-def main(args, config):
     if args.verbose > 0:  # This print statement will only appear if the -v flag is set
         print(f"Processing the following commands: {args.commands}")
 
@@ -19,7 +18,7 @@ def main(args, config):
         have_info=False
 
         if args.verbose > 0:
-            print(f"Waiting for data from command: {config['command_map'][command]}",end='',flush=True)
+            print(f"Waiting for data from command {command}: {config['command_map'][command]}",end='',flush=True)
 
         while not have_info:
             if args.verbose > 0:  
@@ -40,15 +39,4 @@ def main(args, config):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Request data from the plant monitor.')
-    parser.add_argument('commands', type=int, nargs='+',
-                    help='The list of commands to send to the arduino separated by spaces ')
-    parser.add_argument('--verbose', '-v', action='count', default=0)
-    args = parser.parse_args()
-
-    with open('config.yaml') as f:
-        config = yaml.safe_load(f)
-
-    arduino = serial.Serial(config['port'], 9600, timeout=1)
-
-    main(args, config)
+    pass
