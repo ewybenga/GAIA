@@ -4,6 +4,7 @@ import time
 import pandas as pd
 import yaml
 
+# TODO: Set up sqlite database and write our data to a table
 
 def main(args, config):
     if args.verbose > 0:  # This print statement will only appear if the -v flag is set
