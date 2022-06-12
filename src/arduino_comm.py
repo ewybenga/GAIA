@@ -1,16 +1,16 @@
 import argparse
 import serial
 import time
-import pandas as pd
 
-def send_cmd(args, config):
-    arduino = serial.Serial(config['port'], 9600, timeout=1)
+
+def send_cmd(args, port, command_map):
+    arduino = serial.Serial(port, 9600, timeout=1)
 
     if args.verbose > 0:  # This print statement will only appear if the -v flag is set
         print(f"Processing the following commands: {args.commands}")
 
     for command in args.commands:
-        if command not in config['command_map'].keys():  # Check that we received a valid command
+        if command not in command_map.keys():  # Check that we received a valid command
             print(f"Unrecognized command: {command}")
             raise ValueError
             continue
@@ -18,7 +18,7 @@ def send_cmd(args, config):
         have_info=False
 
         if args.verbose > 0:
-            print(f"Waiting for data from command {command}: {config['command_map'][command]}",end='',flush=True)
+            print(f"Waiting for data from command {command}: {command_map[command]}",end='',flush=True)
 
         while not have_info:
             if args.verbose > 0:  
@@ -36,6 +36,7 @@ def send_cmd(args, config):
             print(" done!")
             if args.verbose > 1:
                 print(data)
+    return data
 
 
 if __name__ == "__main__":
