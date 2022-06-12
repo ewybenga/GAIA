@@ -1,0 +1,5 @@
+"command_map":
+  1: "Collect all data [Soil moisture %]"
+  2: "Collect Soil Moisture Percent"
+"db_path" : "/home/plantmonitor/Desktop/GAIA/data/plantdata.db"
+"port": '/dev/ttyACM0'
