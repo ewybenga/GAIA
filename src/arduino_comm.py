@@ -29,13 +29,14 @@ def send_cmd(args, port, command_map):
             data = arduino.readline()  # Read what was sent from the Arduino
 
             if data!=b'':  # Break condition: when we receive non-empty data we will record it and break the while loop
-                data = data.decode('UTF-8').split(',')[:-1]
                 have_info=True
 
         if args.verbose > 0:
             print(" done!")
             if args.verbose > 1:
                 print(data)
+        if command == 1:
+            data = data.decode('UTF-8').split(',')[:-1]
     return data
 
 
