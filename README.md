@@ -32,8 +32,7 @@ GAIA
 │   
 └───src
     │   arduino_comm.py
-    │   
-    │   
+    │   sql_comm.py
 ```
 
 
@@ -63,6 +62,5 @@ that the code compiles, and hit the "Upload" button.
 >
 >### src
 >
->This folder was made to hold Python and YAML files that enables different
-actions with the plant monitor. It should be copied to the raspberry pi where it can be
+>This folder was made to hold Python files that enables different actions with the plant monitor. It should be copied to the raspberry pi where it can be
 called from `run.py`. 
