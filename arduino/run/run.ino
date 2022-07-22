@@ -17,11 +17,13 @@ void loop() {
     command = Serial.readStringUntil('\n'); // https://www.norwegiancreations.com/2017/12/arduino-tutorial-serial-inputs/#:~:text=Arduino%20serial%20monitor.-,Sending%20Commands,-A%20more%20usable
 
     if (command.equals("1")) { // Our encoding for "Send all data"
-      Serial.print(sense_SM()); // Send soil moisture percentage
+      Serial.print(sense_SM(A0)); // Send soil moisture percentage (probe 1)
+      Serial.print(",");
+      Serial.print(sense_SM(A1)); // Send soil moisture percentage (probe 2)
       Serial.print(",");
     }
     else if (command.equals("2")) { // Our encoding for "Send soil moisture percentage"
-      Serial.print(sense_SM());
+      Serial.print(sense_SM(A0));
     }
     else if (command.equals("3")) { // Our encoding for "Send soil moisture percentage"
       Serial.print("watering, enter seconds");

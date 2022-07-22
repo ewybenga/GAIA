@@ -3,6 +3,6 @@
 
 #include <Arduino.h>
 
-int sense_SM();
+int sense_SM(uint8_t pin);
 
 #endif
