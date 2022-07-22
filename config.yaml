@@ -1,5 +1,11 @@
 "command_map":
   1: "Collect all data [Soil moisture %]"
   2: "Collect Soil Moisture Percent"
+  3: "Pumping water"
 "db_path" : "/home/plantmonitor/Desktop/GAIA/data/plantdata.db"
 "port": '/dev/ttyACM0'
+"table":
+  "name": "test"
+  "cols":
+    "soil_moisture_pct1": "integer"
+    "soil_moisture_pct2": "integer"

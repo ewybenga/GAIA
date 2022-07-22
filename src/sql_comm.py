@@ -7,6 +7,7 @@ import sqlite3
 from sqlite3 import Error
 
 def clean_data(raw_data):
+    #TODO: clean data based on config
     return (int(raw_data[0]),)
 
 
@@ -26,23 +27,28 @@ def create_connection(db_file):
     return conn
 
 
-def create_table(conn, table_name, clean=False):
+def create_table(conn, table, clean=False):
     """ create a table from the create_table_sql statement
     :param conn: Connection object
     :param create_table_sql: a CREATE TABLE statement
     :return:
     """
+    table_name = table["name"]
+    table_cols = table["cols"]
+
     if clean:
         drop_table(conn, table_name)
+    
+    sql_cmd = f"""CREATE TABLE IF NOT EXISTS {table_name} (
+                    id integer PRIMARY KEY AUTOINCREMENT,
+                    date datetime default (datetime('now','localtime'))"""
+    for val_name in table_cols:
+        sql_cmd += f",\n{val_name} {table_cols[val_name]}"  # pulls the column names and types from the config file
+    sql_cmd += ");"
 
-    create_table_sql = f"""CREATE TABLE IF NOT EXISTS {table_name} (
-                            id integer PRIMARY KEY AUTOINCREMENT,
-                            date datetime default (datetime('now','localtime')),
-                            soil_moisture_pct integer
-                        );"""
     try:
         c = conn.cursor()
-        c.execute(create_table_sql)
+        c.execute(sql_cmd)
     except Error as e:
         print(e)
 
@@ -70,6 +76,7 @@ def insert_data(conn, table, data):
     (DATETIME, )
     :return: row id
     """
+    # TODO: add config based data insert
     sql = f''' INSERT INTO {table}(soil_moisture_pct)
               VALUES(?) '''
     cur = conn.cursor()
