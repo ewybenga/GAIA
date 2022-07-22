@@ -9,22 +9,26 @@ def send_cmd(args, port, command_map):
     if args.verbose > 0:  # This print statement will only appear if the -v flag is set
         print(f"Processing the following commands: {args.commands}")
 
+    next_cmd_is_val = False
     for command in args.commands:
-        if command not in command_map.keys():  # Check that we received a valid command
+        if not next_cmd_is_val and command not in command_map.keys():  # Check that we received a valid command
             print(f"Unrecognized command: {command}")
             raise ValueError
             continue
 
-        have_info=False
-
-        if args.verbose > 0:
+        if args.verbose > 0 and not next_cmd_is_val:
             print(f"Waiting for data from command {command}: {command_map[command]}",end='',flush=True)
+
+        next_cmd_is_val = False
+        have_info=False
 
         while not have_info:
             if args.verbose > 0:  
                 print(".", sep='', end='', flush=True)
 
             arduino.write(bytes(str(command), 'utf-8'))  # Send our command to the Arduino
+            if command == 3:  # Command 3 (water) needs an argument (seconds to pump)
+                next_cmd_is_val = True
             time.sleep(0.05)  # Wait for data to arrive
             data = arduino.readline()  # Read what was sent from the Arduino
 
