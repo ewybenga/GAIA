@@ -1,4 +1,5 @@
 import argparse
+import pandas as pd
 import yaml
 import sqlite3
 from sqlite3 import Error
@@ -11,6 +12,7 @@ if __name__ == "__main__":
     parser.add_argument('commands', type=int, nargs='+',
                     help='The list of commands to send to the arduino separated by spaces ')
     parser.add_argument('--clean', '-c', action="store_true")
+    parser.add_argument('--mitigate', '-m', action="store_true")
     parser.add_argument('--verbose', '-v', action='count', default=0)
     args = parser.parse_args()
 
@@ -19,6 +21,10 @@ if __name__ == "__main__":
 
     data = send_cmd(args, config['port'], config['command_map'])
 
+    if args.mitigate and int(data[0]) <20:
+        args.commands=[3,10]
+        send_cmd(args, config['port'], config['command_map'])
+
     conn = create_connection(config["db_path"])
-    create_table(conn, "plantdata", args.clean)
-    insert_data(conn, "plantdata", data )
+    create_table(conn, config["table"], args.clean)
+    insert_data(conn, config["table"], data )
