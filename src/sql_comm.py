@@ -6,9 +6,19 @@ Support functions for communicating with sql from
 import sqlite3
 from sqlite3 import Error
 
-def clean_data(raw_data):
-    #TODO: clean data based on config
-    return (int(raw_data[0]),)
+def clean_data(raw_data, table_cols):
+    """ Cleans data based on the types in the 'table_cols' config
+    :param raw_data: an array of strings returned from the arduino
+    :param table_cols: the dictionary holding a mapping of column names to data
+        types from the config
+    :return: a tuple of data cast to the correct data type
+    """
+    clean = []
+    for ind, val_name in enumerate(table_cols):
+        if table_cols[val_name] == "integer":  # sets ints
+            clean.append(int(raw_data[ind]))
+    
+    return tuple(clean)
 
 
 def create_connection(db_file):
@@ -76,11 +86,13 @@ def insert_data(conn, table, data):
     (DATETIME, )
     :return: row id
     """
-    # TODO: add config based data insert
-    sql = f''' INSERT INTO {table}(soil_moisture_pct)
-              VALUES(?) '''
+    table_name = table["name"]
+    table_cols = table["cols"]
+
+    sql = f''' INSERT INTO {table_name} ({",".join(table_cols.keys())})
+              VALUES({",".join(["?" for col in table_cols.keys()])}) '''
     cur = conn.cursor()
-    cur.execute(sql, clean_data(data))
+    cur.execute(sql, clean_data(data, table_cols))
     conn.commit()
     return cur.lastrowid
 
