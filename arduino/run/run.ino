@@ -1,5 +1,5 @@
  #include "src/SoilMoistureSensor.h" // the file that hold the function sense_SM (sense soil moisture)
- #include "src/WaterPump.h" // the file that hold the function sense_SM (sense soil moisture)
+ #include "src/WaterPump.h" // the file that hold the function water (water for however many seconds passed to it)
 
 String command;
 int seconds;
@@ -25,14 +25,13 @@ void loop() {
     else if (command.equals("2")) { // Our encoding for "Send soil moisture percentage"
       Serial.print(sense_SM(A0));
     }
-    else if (command.equals("3")) { // Our encoding for "Send soil moisture percentage"
+    else if (command.equals("3")) { // Our encoding for "water the plant"
       Serial.print("watering, enter seconds");
       while(Serial.available() == 0) {
       }
       if (Serial.available()) {
-        seconds = Serial.readStringUntil('\n').toInt(); // https://www.norwegiancreations.com/2017/12/arduino-tutorial-serial-inputs/#:~:text=Arduino%20serial%20monitor.-,Sending%20Commands,-A%20more%20usable
+        seconds = Serial.readStringUntil('\n').toInt();
         Serial.print(water(seconds));
-//        Serial.print(seconds);
       }
     }
   }
