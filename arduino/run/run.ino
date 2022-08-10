@@ -1,12 +1,14 @@
- #include "src/SoilMoistureSensor.h" // the file that hold the function sense_SM (sense soil moisture)
- #include "src/WaterPump.h" // the file that hold the function water (water for however many seconds passed to it)
+#include <Wire.h>
+#include <SoilMoistureSensor.h>
+#include <WaterPump.h>
+#include <LightSensor.h>
 
 String command;
 int seconds;
 
-
 void setup() {
   Serial.begin(9600); // open the serial port and set the baud rate to 9600bps
+  Wire.begin();
   digitalWrite(PIN_RELAY_1, HIGH);  // set default for pump to not pumping
   pinMode(PIN_RELAY_1, OUTPUT);  // initialize digital pin as an output.
 
@@ -21,6 +23,8 @@ void loop() {
       Serial.print(",");
       Serial.print(sense_SM(A1)); // Send soil moisture percentage (probe 2)
       Serial.print(",");
+      Serial.print(sense_Light()); // Send light value (in lux)
+      Serial.print(",");
     }
     else if (command.equals("2")) { // Our encoding for "Send soil moisture percentage"
       Serial.print(sense_SM(A0));
@@ -33,6 +37,9 @@ void loop() {
         seconds = Serial.readStringUntil('\n').toInt();
         Serial.print(water(seconds));
       }
+    }
+    else if (command.equals("4")) { // Our encoding for "Send soil moisture percentage"
+      Serial.print(sense_Light());
     }
   }
 }
