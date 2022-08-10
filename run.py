@@ -21,10 +21,12 @@ if __name__ == "__main__":
 
     data = send_cmd(args, config['port'], config['command_map'])
 
-    if args.mitigate and int(data[0]) <20:
-        args.commands=[3,10]
-        send_cmd(args, config['port'], config['command_map'])
-
     conn = create_connection(config["db_path"])
     create_table(conn, config["table"], args.clean)
     insert_data(conn, config["table"], data )
+
+    if args.mitigate and int(data[0]) <35:
+        args.commands=[3,10]
+        send_cmd(args, config['port'], config['command_map'])
+
+    
